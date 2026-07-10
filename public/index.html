@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>오늘의 복붙</title>
+<meta name="description" content="감성 이모티콘을 터치 한 번으로 복사하는 앱">
+<meta name="theme-color" content="#FBF3E5">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#FBF3E5;font-family:'Gowun Dodum','Nunito',sans-serif;-webkit-tap-highlight-color:transparent}
+a{color:#C4762A}a:hover{color:#E07F2B}
+input{font-family:'Gowun Dodum',sans-serif}
+@keyframes bkToast{from{transform:translate(-50%,14px) scale(.85);opacity:0}to{transform:translate(-50%,0) scale(1);opacity:1}}
+@keyframes bkSheet{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes bkDim{from{opacity:0}to{opacity:1}}
+@keyframes bkFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes bkPop{0%{transform:scale(1)}40%{transform:scale(.94)}100%{transform:scale(1)}}
+
+.outer{position:fixed;inset:0;display:flex;justify-content:center;background:#EFE7D8}
+.app{position:relative;width:100%;max-width:480px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:#FBF3E5;color:#5C4531;box-shadow:0 0 40px rgba(92,69,49,.12)}
+.bg-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(360px 260px at 88% -4%, rgba(244,183,110,.28), transparent 70%),radial-gradient(320px 300px at -10% 22%, rgba(247,210,157,.30), transparent 70%),radial-gradient(300px 260px at 100% 78%, rgba(242,167,140,.14), transparent 70%)}
+.scroll{position:relative;flex:1;overflow-y:auto;padding:18px 18px 104px;box-sizing:border-box}
+
+/* 카드 */
+.list{display:flex;flex-direction:column;gap:10px}
+.card{background:#FFFAF0;border:1.5px solid #F2D8B5;border-radius:18px;padding:14px 16px;box-shadow:0 2px 8px rgba(196,148,90,.10);cursor:pointer}
+.card:active{animation:bkPop .3s ease}
+.card-content{font-size:17px;line-height:1.4;word-break:break-all}
+.card-meta{display:flex;align-items:center;gap:8px;margin-top:9px}
+.card-tagline{flex:1;min-width:0;font-size:11.5px;color:#B99B7C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat-badge{flex:none;background:#FDEBD3;border-radius:999px;padding:2px 9px;font-size:10.5px;color:#C4762A}
+.info-btn{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#FBF3E5;color:#C7A984;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800}
+.heart-btn{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;background:#FBF3E5;color:#D3B693}
+.heart-btn.on{background:#FDE3E7;color:#E96A7C}
+
+/* 섹션 헤더 */
+.sec-head{display:flex;align-items:baseline;gap:8px}
+.sec-title{font-family:'Jua',sans-serif;color:#4E3A2B}
+.sec-count{font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#C79A6B}
+.sec-eng{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.05em;color:#C79A6B}
+.sec-hint{flex:1;text-align:right;font-size:10.5px;color:#C7A984}
+
+/* 칩 */
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px 14px;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.chip-row.dragging{cursor:grabbing}
+.chip-row::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:5px;border-radius:999px;padding:8px 14px;font-size:12.5px;cursor:pointer;border:1.5px solid #F2D8B5;background:#FFFAF0;color:#8A6B4F}
+.chip.on{border-color:#E07F2B;background:#EF8F3D;color:#FFF}
+
+/* MBTI 버튼 */
+.mbti-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mbti-btn{text-align:center;border-radius:12px;padding:10px 0;font-family:'Nunito',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;border:1.5px solid #F2D8B5;background:#FFFAF0;color:#8A6B4F}
+.mbti-btn.on{border-color:#E07F2B;background:#EF8F3D;color:#FFF;box-shadow:0 2px 6px rgba(224,127,43,.3)}
+
+/* 하단 내비 */
+.bottom-nav{position:absolute;left:0;right:0;bottom:0;z-index:30;background:rgba(255,250,240,.94);backdrop-filter:blur(10px);border-top:1.5px solid #F2D8B5;display:flex;padding:8px 10px calc(14px + env(safe-area-inset-bottom))}
+.nav-item{flex:1;text-align:center;cursor:pointer;padding:4px 0;color:#C7A984}
+.nav-item.on{color:#E07F2B;font-weight:700}
+.nav-label{font-size:10.5px;margin-top:3px}
+
+/* 시트 */
+.sheet-wrap{position:absolute;inset:0;z-index:40}
+.sheet-dim{position:absolute;inset:0;background:rgba(92,69,49,.32);animation:bkDim .2s ease-out}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#FFFAF0;border:1.5px solid #F2D8B5;border-bottom:none;border-radius:26px 26px 0 0;padding:14px 20px calc(28px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(92,69,49,.18);animation:bkSheet .28s cubic-bezier(.2,.9,.3,1.2)}
+.sheet-handle{width:42px;height:5px;border-radius:999px;background:#F2D8B5;margin:0 auto 14px}
+.setting-row{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid #F7E7CC}
+.setting-row:last-child{border-bottom:none}
+.toggle{flex:none;width:44px;height:26px;border-radius:999px;cursor:pointer;position:relative;transition:background .2s;background:#F2D8B5}
+.toggle.on{background:#EF8F3D}
+.toggle-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#FFF;box-shadow:0 1px 3px rgba(0,0,0,.15);transition:left .2s}
+.toggle.on .toggle-knob{left:21px}
+
+/* 토스트 */
+.toast{position:absolute;left:50%;bottom:108px;z-index:70;transform:translateX(-50%);background:#4E3A2B;color:#FFF6E9;border-radius:999px;padding:11px 20px;font-size:13.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(78,58,43,.35);animation:bkToast .25s cubic-bezier(.2,.9,.3,1.4);display:flex;align-items:center;gap:8px}
+
+/* 마스코트 */
+.mascot{width:100%;height:100%;display:block;background:#FFF7EB}
+</style>
+</head>
+<body>
+<div class="outer">
+<div class="app" id="app">
+  <div class="bg-glow"></div>
+
+  <!-- ══ SCROLL AREA ══ -->
+  <div class="scroll" id="scroll">
+
+    <!-- ── HOME ── -->
+    <div id="screen-home">
+      <div style="display:flex;align-items:center;gap:12px;margin:6px 2px 16px">
+        <div style="width:52px;height:52px;flex:none;border-radius:50%;border:2px solid #F2D8B5;background:#FFFAF0;overflow:hidden;animation:bkFloat 3.5s ease-in-out infinite">
+          <svg class="mascot" viewBox="0 0 64 64" aria-label="마스코트">
+            <circle cx="18" cy="16" r="9" fill="#F2C894"/><circle cx="46" cy="16" r="9" fill="#F2C894"/>
+            <circle cx="18" cy="17" r="4.5" fill="#FBE3C4"/><circle cx="46" cy="17" r="4.5" fill="#FBE3C4"/>
+            <circle cx="32" cy="36" r="22" fill="#F2C894"/>
+            <ellipse cx="32" cy="43" rx="10" ry="8" fill="#FBE3C4"/>
+            <circle cx="24" cy="32" r="2.4" fill="#5C4531"/><circle cx="40" cy="32" r="2.4" fill="#5C4531"/>
+            <ellipse cx="32" cy="40" rx="3" ry="2.4" fill="#5C4531"/>
+            <path d="M32 42.5v2.5 M32 45c-1.5 2-4 2-5 .5 M32 45c1.5 2 4 2 5 .5" stroke="#5C4531" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <circle cx="19" cy="40" r="3.2" fill="#F2A78C" opacity=".55"/><circle cx="45" cy="40" r="3.2" fill="#F2A78C" opacity=".55"/>
+          </svg>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Jua','Nunito',sans-serif;font-size:24px;line-height:1.1;color:#4E3A2B">오늘의 복붙</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;color:#C79A6B">TODAY'S COPY &amp; PASTE ⸜(｡˃ ᵕ ˂ )⸝</div>
+        </div>
+        <div data-action="open-settings" style="flex:none;width:38px;height:38px;border-radius:50%;background:#FFFAF0;border:1.5px solid #F2D8B5;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C4762A">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"></circle><path d="M12 2.8v2.4M12 18.8v2.4M4.2 6.5l2 1.2M17.8 16.3l2 1.2M2.8 12h2.4M18.8 12h2.4M4.2 17.5l2-1.2M17.8 7.7l2-1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        </div>
+      </div>
+
+      <!-- 검색 -->
+      <div style="display:flex;align-items:center;gap:10px;background:#FFFAF0;border:1.5px solid #F2D8B5;border-radius:999px;padding:11px 16px;box-shadow:0 2px 8px rgba(196,148,90,.10);margin-bottom:16px">
+        <svg width="17" height="17" viewBox="0 0 20 20" fill="none" style="flex:none"><circle cx="9" cy="9" r="6.2" stroke="#C79A6B" stroke-width="2"></circle><path d="M13.8 13.8L18 18" stroke="#C79A6B" stroke-width="2" stroke-linecap="round"></path></svg>
+        <input id="search-input" placeholder="하트, 곰돌이, 삐짐… 뭐든 검색해봐요" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:14px;color:#5C4531">
+        <div id="clear-query" data-action="clear-query" style="display:none;flex:none;width:20px;height:20px;border-radius:50%;background:#F2D8B5;color:#FFFAF0;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer">✕</div>
+      </div>
+
+      <div id="home-content"></div>
+    </div>
+
+    <!-- ── TREND / MBTI / SAVED ── -->
+    <div id="screen-trend" style="display:none"></div>
+    <div id="screen-mbti" style="display:none"></div>
+    <div id="screen-saved" style="display:none"></div>
+  </div>
+
+  <!-- ══ BOTTOM NAV ══ -->
+  <div class="bottom-nav">
+    <div class="nav-item" data-action="nav" data-tab="home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11.2 12 4.5l8 6.7V20a1 1 0 0 1-1 1h-4.6v-5.4h-4.8V21H5a1 1 0 0 1-1-1v-8.8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></svg>
+      <div class="nav-label">홈</div>
+    </div>
+    <div class="nav-item" data-action="nav" data-tab="trend">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3.5 17.5 9 11l4 4 7-8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 6.5h5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <div class="nav-label">트렌드</div>
+    </div>
+    <div class="nav-item" data-action="nav" data-tab="mbti">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="2"></circle><path d="M5 20c.8-3.4 3.6-5.2 7-5.2s6.2 1.8 7 5.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      <div class="nav-label">MBTI</div>
+    </div>
+    <div class="nav-item" data-action="nav" data-tab="saved">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20.5S4 15.4 4 9.9C4 7 6.2 5 8.7 5c1.4 0 2.6.7 3.3 1.8C12.7 5.7 13.9 5 15.3 5 17.8 5 20 7 20 9.9c0 5.5-8 10.6-8 10.6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path></svg>
+      <div class="nav-label">보관함</div>
+    </div>
+  </div>
+
+  <!-- 시트 / 온보딩 / 토스트 -->
+  <div id="overlay-root"></div>
+  <div id="onboard-root"></div>
+  <div id="toast-root"></div>
+</div>
+</div>
+<script src="./app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

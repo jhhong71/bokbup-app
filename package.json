@@ -1,0 +1,9 @@
+{
+  "name": "bokbup-app",
+  "version": "2.0.0",
+  "description": "오늘의 복붙 — 감성 이모티콘 복사 앱 (REST API 연동)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
