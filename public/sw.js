@@ -1,5 +1,5 @@
 // 오늘의 복붙 — 서비스워커 (앱 셸 캐시 + 오프라인 지원)
-var CACHE = 'bokbup-v1';
+var CACHE = 'bokbup-v2';
 var SHELL = [
   '/',
   '/app.js',
@@ -42,6 +42,20 @@ self.addEventListener('fetch', function (e) {
           return hit || new Response('{"items":[],"total":0}', { headers: { 'Content-Type': 'application/json' } });
         });
       })
+    );
+    return;
+  }
+
+  // HTML(페이지 이동): 네트워크 우선 — 배포한 업데이트가 바로 반영되도록
+  if (req.mode === 'navigate' || (req.headers.get('accept') || '').indexOf('text/html') !== -1) {
+    e.respondWith(
+      fetch(req).then(function (res) {
+        if (res.ok) {
+          var clone = res.clone();
+          caches.open(CACHE).then(function (c) { c.put(req, clone); });
+        }
+        return res;
+      }).catch(function () { return caches.match(req).then(function (hit) { return hit || caches.match('/'); }); })
     );
     return;
   }

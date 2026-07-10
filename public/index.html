@@ -133,6 +133,14 @@ input{font-family:'Gowun Dodum',sans-serif}
     <div id="screen-saved" style="display:none"></div>
   </div>
 
+  <!-- ══ AD BANNER (카카오 AdFit) ══ -->
+  <div id="ad-bar" style="position:absolute;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:29;display:flex;justify-content:center;align-items:center;min-height:50px;padding:5px 0;background:rgba(255,250,240,.96);border-top:1.5px solid #F7E7CC;visibility:hidden">
+    <ins class="kakao_ad_area" style="display:none"
+      data-ad-unit="DAN-D8GhJS77HXDcRnLa"
+      data-ad-width="320"
+      data-ad-height="50"></ins>
+  </div>
+
   <!-- ══ BOTTOM NAV ══ -->
   <div class="bottom-nav">
     <div class="nav-item" data-action="nav" data-tab="home">
@@ -160,7 +168,27 @@ input{font-family:'Gowun Dodum',sans-serif}
 </div>
 </div>
 <script src="./app.js"></script>
+<script type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js" async></script>
 <script>
+// 광고가 실제로 로드됐을 때만 배너 영역 표시 (심사 전·NO-AD 시 빈 공간 없음)
+(function () {
+  var ins = document.querySelector('.kakao_ad_area');
+  var bar = document.getElementById('ad-bar');
+  var scroll = document.getElementById('scroll');
+  if (!ins || !bar) return;
+  function check() {
+    if (getComputedStyle(ins).display !== 'none') {
+      bar.style.visibility = 'visible';
+      if (scroll) scroll.style.paddingBottom = '166px';
+      return true;
+    }
+    return false;
+  }
+  var mo = new MutationObserver(function () { if (check()) mo.disconnect(); });
+  mo.observe(ins, { attributes: true, attributeFilter: ['style'] });
+  setTimeout(check, 3000);
+  setTimeout(check, 8000);
+})();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('/sw.js').catch(function () {});

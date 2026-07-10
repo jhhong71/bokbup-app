@@ -10,6 +10,15 @@ const src = process.argv[2];
 if (!src) { console.error('사용법: node scripts/import-kaomoji.js <kaomoji.json 경로>'); process.exit(1); }
 const RAW = JSON.parse(fs.readFileSync(src, 'utf8'));
 
+// 원본에 HTML 엔티티로 이스케이프된 항목이 섞여 있어 디코딩 필요 (&amp;는 마지막에)
+function decodeEntities(s) {
+  return s
+    .replace(/&#x([0-9a-fA-F]+);/g, (m, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(parseInt(d, 10)))
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
+}
+
 // ── 원본 카테고리(로마자) → [앱 카테고리, 한국어 태그] 매핑 ──
 const M = {
   // 기쁨
@@ -181,7 +190,7 @@ for (const srcCat of Object.keys(RAW)) {
   const pool = POOLS[cat] || MBTI_ALL;
   const desc = (map ? tags[0] : '컬렉션') + ' 카오모지';
   for (const raw of RAW[srcCat]) {
-    const content = String(raw).trim();
+    const content = decodeEntities(decodeEntities(String(raw))).trim(); // 이중 이스케이프 항목 대응
     if (content.length < 2 || content.length > 44 || /[\n\r\t]/.test(content)) { skippedBad++; continue; }
     if (seen.has(content)) { skippedDup++; continue; }
     seen.add(content);
