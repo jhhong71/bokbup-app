@@ -1,8 +1,11 @@
 {
+  "id": "/",
   "name": "오늘의 복붙",
   "short_name": "오늘의 복붙",
   "description": "감성 이모티콘을 터치 한 번으로 복사하는 앱",
   "lang": "ko",
+  "dir": "ltr",
+  "categories": ["entertainment", "lifestyle"],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
