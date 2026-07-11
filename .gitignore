@@ -4,3 +4,5 @@ public/reels.html
 promo/
 .DS_Store
 Thumbs.db
+
+.wrangler/
