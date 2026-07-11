@@ -19,7 +19,7 @@ const STATS_FILE = path.join(__dirname, 'data', 'stats.json');
 
 // 오픈소스 컬렉션 (kaomoji-collection, MIT — data/LICENSE-kaomoji-collection.txt)
 let IMPORTED = [];
-try { IMPORTED = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'imported.json'), 'utf8')); } catch (e) {}
+try { IMPORTED = JSON.parse(fs.readFileSync(path.join(__dirname, 'public', 'data', 'imported.json'), 'utf8')); } catch (e) {}
 const ALL = DATA.concat(IMPORTED);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
 

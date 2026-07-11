@@ -1,4 +1,4 @@
-# 오늘의 복붙 — Google Play 출시 가이드
+﻿# 오늘의 복붙 — Google Play 출시 가이드
 
 비용: **$25 (1회, 개발자 계정 등록비)** — 그 외 전부 무료.
 기간: 비공개 테스트 의무(테스터 12명 × 14일) 때문에 **최소 2~3주**.
@@ -18,7 +18,7 @@
 ## 2. PWABuilder로 안드로이드 패키지 만들기 (무료, 10분)
 
 1. https://www.pwabuilder.com 접속
-2. URL 입력: `https://port-0-bokbup-app-mrem6lseafd21208.sel3.cloudtype.app`
+2. URL 입력: `https://bokbup-app.pages.dev`
 3. **Package for Stores** → **Android** → **Google Play** 선택
 4. 설정:
    - Package ID: `com.jhhong71.bokbup`
@@ -45,9 +45,11 @@ ZIP 안의 `assetlinks.json` 내용(특히 `sha256_cert_fingerprints` 값)을 Cl
    - 그래픽 이미지: 1024×500 (Claude에게 만들어달라고 하면 됨)
    - 휴대폰 스크린샷 2장 이상 (폰에서 앱 캡처)
    - 간단한 설명 / 자세한 설명 (아래 초안 참고)
-   - 개인정보처리방침 URL: `https://port-0-bokbup-app-mrem6lseafd21208.sel3.cloudtype.app/privacy.html`
-5. **콘텐츠 등급 설문** (전체이용가로 나옴), **데이터 보안 섹션**: "데이터 수집 안 함" 선택
-   (기기 밖으로 나가는 개인 데이터가 없음 — 익명 카운트만 집계)
+   - 개인정보처리방침 URL: `https://bokbup-app.pages.dev/privacy`
+5. **콘텐츠 등급 설문** (전체이용가로 나옴), **데이터 보안 섹션**: 앱 자체는 개인 데이터를
+   수집하지 않지만, **광고(카카오 AdFit)가 있으므로 "광고 표시함"으로 답변**하고
+   광고 파트너의 데이터 처리(광고 식별자 등)를 함께 신고
+6. **광고 포함 여부**: "예, 광고 포함" 선택 (AdFit 배너)
 
 ## 5. 14일 후 프로덕션 신청
 
@@ -72,9 +74,10 @@ ZIP 안의 `assetlinks.json` 내용(특히 `sha256_cert_fingerprints` 값)을 Cl
 > ✦ 트렌드 랭킹 — 지금 가장 많이 복붙되는 데코
 > ✦ MBTI 맞춤 추천 — 매일 새로운 픽
 > ✦ 보관함 — 하트 누른 이모티콘과 최근 복사 모아보기
-> ✦ 회원가입 없음, 광고 없음, 개인정보 수집 없음
+> ✦ 회원가입 없음, 개인정보 수집 없음
 
 ## 주의
 
 - 서명 키(`signing.keystore`)를 잃어버리면 앱 업데이트가 영영 불가능합니다. 꼭 백업!
-- 배포 주소(cloudtype.app)가 바뀌면 TWA가 깨지므로 서비스 이름을 바꾸지 마세요.
+- 배포 주소(pages.dev)가 바뀌면 TWA가 깨지므로 서비스 이름을 바꾸지 마세요.
+

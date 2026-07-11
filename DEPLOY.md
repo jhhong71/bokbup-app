@@ -1,5 +1,18 @@
 # 오늘의 복붙 — 0원 출시 가이드 (PWA)
 
+## 현재 배포 (Cloudflare Pages) ✅
+
+- **주소: https://bokbup-app.pages.dev** (매일 정지 없음, 광고 허용, 무료)
+- 프론트: `public/` 정적 서빙 · API: `functions/api/[[route]].js` (Pages Functions)
+- 복붙 집계: D1 데이터베이스 `bokbup-stats` (재배포해도 유지)
+- 재배포: `npx wrangler pages deploy` (또는 Claude에게 "배포해줘")
+- 데이터 수정 시: `node scripts/build-static-data.js` 실행 후 배포
+
+> 아래 Cloudtype/GitHub 안내는 초기 배포 기록용. Cloudtype 프리티어는 매일 1회
+> 정지되는 제약이 있어 Cloudflare Pages로 이전했음 (2026-07-12).
+
+---
+
 이 앱은 PWA(설치형 웹앱)로 준비돼 있어요. 아래 순서대로 하면 **총비용 0원**으로
 폰 홈화면에 설치되는 앱을 출시할 수 있습니다.
 

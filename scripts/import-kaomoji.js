@@ -202,7 +202,8 @@ for (const srcCat of Object.keys(RAW)) {
   }
 }
 
-const dest = path.join(__dirname, '..', 'data', 'imported.json');
+const dest = path.join(__dirname, '..', 'public', 'data', 'imported.json');
+fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(out), 'utf8');
 console.log('가져옴: ' + out.length + '개  (중복 제외: ' + skippedDup + ', 필터 제외: ' + skippedBad + ')');
 const byCat = {};
