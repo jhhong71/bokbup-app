@@ -134,11 +134,11 @@ input{font-family:'Gowun Dodum',sans-serif}
   </div>
 
   <!-- ══ AD BANNER (카카오 AdFit) ══ -->
-  <div id="ad-bar" style="position:absolute;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:29;display:flex;justify-content:center;align-items:center;min-height:50px;padding:5px 0;background:rgba(255,250,240,.96);border-top:1.5px solid #F7E7CC;visibility:hidden">
+  <div id="ad-bar" style="position:absolute;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:29;display:flex;justify-content:center;align-items:center;min-height:100px;padding:5px 0;background:rgba(255,250,240,.96);border-top:1.5px solid #F7E7CC;visibility:hidden">
     <ins class="kakao_ad_area" style="display:none"
-      data-ad-unit="DAN-D8GhJS77HXDcRnLa"
+      data-ad-unit="DAN-6lwMQfuCsSdXHcJh"
       data-ad-width="320"
-      data-ad-height="50"></ins>
+      data-ad-height="100"></ins>
   </div>
 
   <!-- ══ BOTTOM NAV ══ -->
@@ -179,7 +179,7 @@ input{font-family:'Gowun Dodum',sans-serif}
   function check() {
     if (getComputedStyle(ins).display !== 'none') {
       bar.style.visibility = 'visible';
-      if (scroll) scroll.style.paddingBottom = '166px';
+      if (scroll) scroll.style.paddingBottom = '216px';
       return true;
     }
     return false;
