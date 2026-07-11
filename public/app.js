@@ -466,7 +466,8 @@
         '</div>' +
         '<div style="position:relative;padding:0 26px calc(30px + env(safe-area-inset-bottom))">' +
           '<div data-action="finish-onboard" style="background:#EF8F3D;color:#FFF;border-radius:999px;padding:15px 0;text-align:center;font-family:\'Jua\',sans-serif;font-size:17px;box-shadow:0 4px 14px rgba(224,127,43,.4);cursor:pointer">시작하기</div>' +
-          '<div data-action="finish-onboard" style="text-align:center;font-size:12px;color:#B99B7C;margin-top:12px;cursor:pointer">건너뛰기 — 나중에 설정에서 바꿀 수 있어요</div>' +
+          '<div data-action="finish-onboard" style="margin-top:10px;background:#FFFAF0;border:1.5px solid #F2D8B5;color:#8A6B4F;border-radius:999px;padding:14px 0;text-align:center;font-family:\'Jua\',sans-serif;font-size:16px;cursor:pointer">건너뛰기</div>' +
+          '<div style="text-align:center;font-size:11.5px;color:#C7A984;margin-top:10px">나중에 설정에서 바꿀 수 있어요</div>' +
         '</div>' +
       '</div>';
   }
