@@ -25,6 +25,8 @@ input{font-family:'Gowun Dodum',sans-serif}
 @keyframes bkPop{0%{transform:scale(1)}40%{transform:scale(.94)}100%{transform:scale(1)}}
 
 .outer{position:fixed;inset:0;display:flex;justify-content:center;background:#EFE7D8}
+/* 인앱 브라우저(카톡 등)의 툴바가 차지하는 영역을 반영하는 동적 뷰포트 높이 */
+@supports (height: 100dvh){.outer{inset:auto;top:0;left:0;right:0;height:100dvh}}
 .app{position:relative;width:100%;max-width:480px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:#FBF3E5;color:#5C4531;box-shadow:0 0 40px rgba(92,69,49,.12)}
 .bg-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(360px 260px at 88% -4%, rgba(244,183,110,.28), transparent 70%),radial-gradient(320px 300px at -10% 22%, rgba(247,210,157,.30), transparent 70%),radial-gradient(300px 260px at 100% 78%, rgba(242,167,140,.14), transparent 70%)}
 .scroll{position:relative;flex:1;overflow-y:auto;padding:18px 18px 104px;box-sizing:border-box}
