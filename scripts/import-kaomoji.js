@@ -76,7 +76,7 @@ const M = {
   akachan:['cute','아기,베이비'], nemui:['cute','졸림,잠'], neru:['cute','잠,취침'], suyaa:['cute','쿨쿨,새근새근'],
   futon:['cute','이불,꿀잠'], akubi:['cute','하품'], gorogoro:['cute','뒹굴뒹굴'], goron:['cute','벌러덩'],
   relax:['cute','휴식,여유'], iyashi:['cute','힐링,치유'], yurui:['cute','느긋,여유'], angel:['cute','천사,날개'],
-  chokon:['cute','쪼그리,얌전'], chiikawa:['cute','치이카와,캐릭터'], gyaru:['cute','갸루,포즈'],
+  chokon:['cute','쪼그리,얌전'], gyaru:['cute','갸루,포즈'],
   // 동물
   cat:['animal','고양이,냥'], nyaa:['animal','냐옹,고양이'], kitty:['animal','고양이'], dog:['animal','강아지,멍멍'],
   kuma:['animal','곰,곰돌이'], rabbit:['animal','토끼'], hamusutaa:['animal','햄스터'], hiyoko:['animal','병아리'],
@@ -147,9 +147,8 @@ const M = {
   biyoon:['etc','뾰용,통통'], yureru:['etc','흔들흔들'], tokeru:['etc','흐물흐물,녹음'], hirameku:['etc','번뜩,아이디어'],
   kangaeru:['etc','생각중,고민'], omou:['etc','생각,상상'], gimon:['etc','의문,물음표'], hatena:['etc','물음표,갸우뚱'],
   wakaranai:['etc','모르겠어,갸웃'], uun:['etc','으음,고민'], konwaku:['etc','혼란,당황'], shingichuu:['etc','심의중,판단중'],
-  kinchou:['etc','긴장,떨림'], sowasowa:['etc','안절부절'], doraemon:['etc','도라에몽,캐릭터'], kirby:['etc','커비,캐릭터'],
-  baymax:['etc','베이맥스,캐릭터'], miffy:['etc','미피,캐릭터'], 'my-melody':['etc','마이멜로디,캐릭터'],
-  anpanman:['etc','호빵맨,캐릭터'], character:['etc','캐릭터'], piero:['etc','삐에로,광대'], tengu:['etc','텐구,요괴'],
+  kinchou:['etc','긴장,떨림'], sowasowa:['etc','안절부절'],
+  character:['etc','캐릭터'], piero:['etc','삐에로,광대'], tengu:['etc','텐구,요괴'],
   glasses:['etc','안경,척척'], sunglasses:['etc','선글라스,시크'], hage:['etc','반들,머리'], debu:['etc','통통,포동'],
   yaseru:['etc','다이어트,홀쭉'], hengao:['etc','얼굴개그,익살'], nosebleed:['etc','코피,헉'], kimochiwarui:['etc','찝찝,으엑'],
   kusai:['etc','냄새,코막힘'], onara:['etc','방귀,뿡'], oshiri:['etc','엉덩이,힙'], hanahoji:['etc','코파기,심드렁'],
@@ -179,11 +178,16 @@ const POOLS = {
   etc: MBTI_ALL,
 };
 
+// 상표권 캐릭터 카테고리 제외 (도라에몽/호빵맨/베이맥스/커비/미피/마이멜로디/치이카와 등)
+// — kaomojiya의 MIT 라이선스는 이들 제3자 상표권까지 허용하지 않으므로 상용 앱에서 제거
+const DROP = new Set(['doraemon', 'kirby', 'baymax', 'miffy', 'my-melody', 'anpanman', 'chiikawa']);
+
 const seen = new Set(DATA.map(d => d.content.trim()));
 const out = [];
-let skippedDup = 0, skippedBad = 0, n = 0;
+let skippedDup = 0, skippedBad = 0, skippedTM = 0, n = 0;
 
 for (const srcCat of Object.keys(RAW)) {
+  if (DROP.has(srcCat)) { skippedTM += RAW[srcCat].length; continue; }
   const map = M[srcCat];
   const cat = map ? map[0] : 'etc';
   const tags = map ? map[1].split(',') : [srcCat, '기타'];
@@ -205,7 +209,7 @@ for (const srcCat of Object.keys(RAW)) {
 const dest = path.join(__dirname, '..', 'public', 'data', 'imported.json');
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(out), 'utf8');
-console.log('가져옴: ' + out.length + '개  (중복 제외: ' + skippedDup + ', 필터 제외: ' + skippedBad + ')');
+console.log('가져옴: ' + out.length + '개  (중복 제외: ' + skippedDup + ', 필터 제외: ' + skippedBad + ', 상표 제외: ' + skippedTM + ')');
 const byCat = {};
 for (const it of out) byCat[it.cat] = (byCat[it.cat] || 0) + 1;
 console.log(JSON.stringify(byCat, null, 1));
