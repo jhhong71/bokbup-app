@@ -6,3 +6,6 @@ promo/
 Thumbs.db
 
 .wrangler/
+
+wdeploy.log
+deploy.log
