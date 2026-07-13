@@ -1,0 +1,38 @@
+🪵  Writing logs to "C:\Users\joosu\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-07-13_04-03-11_324.log"
+.env file not found at "C:\Users\joosu\OneDrive\바탕 화면\앱만들기\오늘의복붙\.env". Continuing... For more details, refer to https://developers.cloudflare.com/workers/wrangler/system-environment-variables/
+.env file not found at "C:\Users\joosu\OneDrive\바탕 화면\앱만들기\오늘의복붙\.env.local". Continuing... For more details, refer to https://developers.cloudflare.com/workers/wrangler/system-environment-variables/
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Configuration file belonging to ⚡️ Pages ⚡️ project detected.
+Metrics dispatcher: Posting data {"deviceId":"e2671a49-ff31-4f15-8c90-e866a091d2cc","event":"wrangler command started","timestamp":1783915391559,"properties":{"amplitude_session_id":1783915391538,"amplitude_event_id":0,"wranglerVersion":"4.110.0","wranglerMajorVersion":4,"wranglerMinorVersion":110,"wranglerPatchVersion":0,"osPlatform":"Windows","osVersion":"Windows 11 Home","nodeVersion":24,"isFirstUsage":false,"configFileType":"none","isCI":false,"isPagesCI":false,"isWorkersCI":false,"isInteractive":false,"hasAssets":false,"agent":"claude-code","argsUsed":["branch","projectName"],"argsCombination":"branch, projectName","sanitizedCommand":"pages deploy","sanitizedArgs":{},"currentAgentSkillsInstalled":false}}
+-- START CF API REQUEST: GET https://api.cloudflare.com/client/v4/accounts/dc6b727c26303d1a764a026e065a1efd/pages/projects/bokbup-app
+QUERY STRING: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+HEADERS: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+INIT: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+-- END CF API REQUEST
+-- START CF API RESPONSE: OK 200
+HEADERS: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+RESPONSE: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+-- END CF API RESPONSE
+Pages-to-Workers delegation skipped: unsupported args: --branch, --commit-dirty
+pages deploy: Detecting git repository information...
+pages deploy: Git repository detected
+pages deploy: Working directory dirty status: true
+pages deploy: Using provided branch: "main"
+pages deploy: Detected commit hash: "5d65e42e791de8fa28572de48e409e16f6beb9cd"
+pages deploy: Detected commit message: "쿠팡 파트너스 배너 추가 (AdFit과 50/50 번갈아 표시)
+
+- 하단 배너: 열 때마..."
+pages deploy: Git information summary - branch: main, commitHash: 5d65e42e791de8fa28572de48e409e16f6beb9cd, commitDirty: true
+Metrics dispatcher: Posting data {"deviceId":"e2671a49-ff31-4f15-8c90-e866a091d2cc","event":"delegate pages to workers","timestamp":1783915392410,"properties":{"amplitude_session_id":1783915392153,"amplitude_event_id":0,"wranglerVersion":"4.110.0","wranglerMajorVersion":4,"wranglerMinorVersion":110,"wranglerPatchVersion":0,"osPlatform":"Windows","osVersion":"Windows 11 Home","nodeVersion":24,"isFirstUsage":false,"configFileType":"none","isCI":false,"isPagesCI":false,"isWorkersCI":false,"isInteractive":false,"hasAssets":false,"agent":"claude-code","category":"Workers","os":"win32:x64","command":"deploy","result":"skipped","reason":"unsupported args: --branch, --commit-dirty","currentAgentSkillsInstalled":false}}
+-- START CF API REQUEST: GET https://api.cloudflare.com/client/v4/accounts/dc6b727c26303d1a764a026e065a1efd/pages/projects/bokbup-app
+QUERY STRING: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+HEADERS: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+INIT: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+-- END CF API REQUEST
+-- START CF API RESPONSE: OK 200
+HEADERS: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+RESPONSE: omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data
+-- END CF API RESPONSE
+Configuration file belonging to ⚡️ Pages ⚡️ project detected.
