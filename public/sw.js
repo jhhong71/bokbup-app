@@ -1,5 +1,5 @@
 // 오늘의 복붙 — 서비스워커 (앱 셸 캐시 + 오프라인 지원)
-var CACHE = 'bokbup-v5';
+var CACHE = 'bokbup-v6';
 var SHELL = [
   '/',
   '/app.js',
