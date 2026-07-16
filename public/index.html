@@ -126,12 +126,12 @@ input{font-family:'Gowun Dodum',sans-serif}
         <div id="clear-query" data-action="clear-query" style="display:none;flex:none;width:20px;height:20px;border-radius:50%;background:#F2D8B5;color:#FFFAF0;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer">✕</div>
       </div>
 
-      <!-- ══ AD (카카오 AdFit 320×50 — 항상 로드, 피드 내 배너) ══ -->
-      <div id="home-ad" style="display:flex;justify-content:center;margin:2px 0 14px">
-        <ins class="kakao_ad_area" style="display:none;width:320px"
-          data-ad-unit="DAN-6lwMQfuCsSdXHcJh"
-          data-ad-width="320"
-          data-ad-height="50"></ins>
+      <!-- ══ AD (쿠팡 파트너스 — 피드 내, 필수 고지 포함) ══ -->
+      <div id="home-ad" style="margin:2px 0 14px">
+        <div style="font-size:9.5px;color:#C7A984;line-height:1.25;text-align:center;padding:1px 8px 4px">쿠팡 파트너스 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다</div>
+        <div style="display:flex;justify-content:center">
+          <iframe id="coupang-frame" title="쿠팡 추천 상품" scrolling="no" style="border:0;width:320px;height:100px;overflow:hidden"></iframe>
+        </div>
       </div>
 
       <div id="home-content"></div>
@@ -143,10 +143,12 @@ input{font-family:'Gowun Dodum',sans-serif}
     <div id="screen-saved" style="display:none"></div>
   </div>
 
-  <!-- ══ AD BANNER (쿠팡 파트너스 — 하단 고정) ══ -->
-  <div id="ad-bar" style="position:absolute;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:29;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100px;padding:4px 0;background:rgba(255,250,240,.96);border-top:1.5px solid #F7E7CC;visibility:hidden">
-    <div id="ad-disclosure" style="display:none;font-size:9.5px;color:#C7A984;line-height:1.25;text-align:center;padding:1px 8px 3px">쿠팡 파트너스 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다</div>
-    <iframe id="coupang-frame" title="쿠팡 추천 상품" scrolling="no" style="display:none;border:0;width:320px;height:100px;overflow:hidden"></iframe>
+  <!-- ══ AD BANNER (카카오 AdFit 320×50 — 하단 고정, 넘침 클립) ══ -->
+  <div id="ad-bar" style="position:absolute;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom));z-index:29;height:56px;display:flex;justify-content:center;align-items:center;padding:3px 0;background:rgba(255,250,240,.96);border-top:1.5px solid #F7E7CC;overflow:hidden">
+    <ins class="kakao_ad_area" style="display:none;width:320px"
+      data-ad-unit="DAN-6lwMQfuCsSdXHcJh"
+      data-ad-width="320"
+      data-ad-height="50"></ins>
   </div>
 
   <!-- ══ BOTTOM NAV ══ -->
@@ -178,24 +180,20 @@ input{font-family:'Gowun Dodum',sans-serif}
 <script src="./app.js"></script>
 <script type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js" async></script>
 <script>
-// ── 광고: 피드 내 AdFit 300×250(항상 로드) + 하단 쿠팡 파트너스 배너 ──
+// ── 광고: 피드 내 쿠팡 파트너스 배너 + 하단 고정 카카오 AdFit 320×50 ──
 (function () {
-  // 쿠팡 다이나믹 배너 (하단 고정, iframe 격리 렌더 + 필수 고지 문구)
-  var bar = document.getElementById('ad-bar');
-  var scroll = document.getElementById('scroll');
+  // 쿠팡 다이나믹 배너 (피드 내, iframe 격리 렌더 — 항상 로드)
   var frame = document.getElementById('coupang-frame');
-  var disc = document.getElementById('ad-disclosure');
-  if (bar && frame) {
-    disc.style.display = 'block';
-    frame.style.display = 'block';
+  if (frame) {
     frame.srcdoc =
       '<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;overflow:hidden}</style></head><body>' +
       '<script src="https://ads-partners.coupang.com/g.js"><\/script>' +
       '<script>new PartnersCoupang.G({"id":1005998,"template":"carousel","trackingCode":"AF5753023","width":"320","height":"100","tsource":""});<\/script>' +
       '</body></html>';
-    bar.style.visibility = 'visible';
-    if (scroll) scroll.style.paddingBottom = '232px';
   }
+  // 하단 AdFit 320×50 자리만큼 스크롤 여백 확보 (ba.min.js는 전역 로드)
+  var scroll = document.getElementById('scroll');
+  if (scroll) scroll.style.paddingBottom = '170px';
 })();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
