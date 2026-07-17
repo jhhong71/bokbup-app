@@ -33,6 +33,9 @@ input{font-family:'Gowun Dodum',sans-serif}
 
 /* 카드 */
 .list{display:flex;flex-direction:column;gap:10px}
+/* 공통 광고 띠배너 슬롯 (각 페이지 헤더 아래) */
+.ad-strip{display:flex;justify-content:center;margin:4px 0 14px;min-height:50px}
+.ad-strip:empty{display:none}
 .card{background:#FFFAF0;border:1.5px solid #F2D8B5;border-radius:18px;padding:14px 16px;box-shadow:0 2px 8px rgba(196,148,90,.10);cursor:pointer}
 .card:active{animation:bkPop .3s ease}
 .card-content{font-size:17px;line-height:1.4;word-break:break-all}
@@ -126,6 +129,14 @@ input{font-family:'Gowun Dodum',sans-serif}
         <div id="clear-query" data-action="clear-query" style="display:none;flex:none;width:20px;height:20px;border-radius:50%;background:#F2D8B5;color:#FFFAF0;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer">✕</div>
       </div>
 
+      <!-- 띠배너(AdFit) 슬롯 — 각 페이지 공통 .ad-strip. ins는 활성 페이지 슬롯으로 이동 -->
+      <div class="ad-strip">
+        <ins class="kakao_ad_area" style="display:none;width:320px"
+          data-ad-unit="DAN-6lwMQfuCsSdXHcJh"
+          data-ad-width="320"
+          data-ad-height="50"></ins>
+      </div>
+
       <div id="home-content"></div>
     </div>
 
@@ -134,16 +145,12 @@ input{font-family:'Gowun Dodum',sans-serif}
     <div id="screen-mbti" style="display:none"></div>
     <div id="screen-saved" style="display:none"></div>
 
-    <!-- ══ AD (각 페이지 콘텐츠 하단 — 쿠팡 파트너스 + 카카오 AdFit) ══ -->
+    <!-- ══ AD (각 페이지 콘텐츠 하단 — 쿠팡 파트너스) ══ -->
     <div id="ads-bottom" style="margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:12px">
       <div style="text-align:center">
         <div style="font-size:9.5px;color:#C7A984;line-height:1.25;padding:0 8px 4px">쿠팡 파트너스 활동의 일환으로 일정액의 수수료를 제공받을 수 있습니다</div>
         <iframe id="coupang-frame" title="쿠팡 추천 상품" scrolling="no" style="border:0;width:320px;height:100px;overflow:hidden"></iframe>
       </div>
-      <ins class="kakao_ad_area" style="display:none;width:320px"
-        data-ad-unit="DAN-6lwMQfuCsSdXHcJh"
-        data-ad-width="320"
-        data-ad-height="50"></ins>
     </div>
   </div>
 

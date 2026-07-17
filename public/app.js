@@ -233,6 +233,17 @@
     }).catch(function () { toast('데이터를 불러오지 못했어요'); });
   }
 
+  // ── 띠배너(AdFit) 이동: 활성 페이지의 .ad-strip 슬롯으로 ──
+  // ins 노드 참조를 유지해, 재렌더로 문서에서 분리돼도 다시 붙일 수 있게 함
+  var adInsEl = null;
+  function placeAdStrip() {
+    if (!adInsEl) adInsEl = document.querySelector('.kakao_ad_area');
+    if (!adInsEl) return;
+    var host = document.querySelector('#screen-' + state.tab + ' .ad-strip');
+    if (!host) return;
+    if (adInsEl.parentNode !== host) host.appendChild(adInsEl);
+  }
+
   // ── 홈 ──
   function renderHome() {
     var el = $('#home-content');
@@ -296,6 +307,7 @@
           ? '<div class="list">' + state.picks.map(function (it) { return cardHTML(it, { showCat: true }); }).join('') + '</div>'
           : loadingHTML());
     }
+    placeAdStrip();
   }
 
   // ── 트렌드 ──
@@ -309,6 +321,7 @@
         '<div style="background:#F2A7B3;color:#FFF;border-radius:999px;padding:3px 10px;font-family:\'Nunito\',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.05em">WEEKLY ✦</div>' +
       '</div>' +
       '<div style="font-size:12.5px;color:#B99B7C;margin:0 4px 14px">이번 주 인스타에서 가장 많이 복붙된 감성 데코 · 터치하면 바로 복사</div>' +
+      '<div class="ad-strip"></div>' +
       (trend.length === 0 ? loadingHTML() : '') +
       '<div class="list">' + trend.map(function (it, i) {
         var fav = !!state.favs[it.id];
@@ -324,6 +337,7 @@
           '<div class="heart-btn' + (fav ? ' on' : '') + '" data-action="fav" data-id="' + it.id + '">' + (fav ? '♥' : '♡') + '</div>' +
         '</div>';
       }).join('') + '</div>';
+    placeAdStrip();
   }
 
   // ── MBTI ──
@@ -333,6 +347,7 @@
     el.innerHTML =
       '<div style="font-family:\'Jua\',sans-serif;font-size:24px;color:#4E3A2B;margin:10px 2px 4px">MBTI 추천</div>' +
       '<div style="font-size:12.5px;color:#B99B7C;margin:0 4px 14px">내 MBTI를 고르면 찰떡인 이모티콘을 골라줘요 · 매일 새로운 픽</div>' +
+      '<div class="ad-strip"></div>' +
       '<div class="mbti-grid" style="margin-bottom:18px">' + mbtiGridHTML('mbti-pick') + '</div>' +
       '<div class="sec-head" style="margin:0 4px 12px">' +
         '<div class="sec-title" style="font-size:17px">' + esc(state.mbti) + ' 맞춤 픽</div>' +
@@ -341,6 +356,7 @@
       (ready
         ? '<div class="list">' + state.mbtiItems.map(function (it) { return cardHTML(it); }).join('') + '</div>'
         : loadingHTML());
+    placeAdStrip();
   }
 
   // ── 보관함 ──
@@ -355,6 +371,7 @@
         '<div style="background:#FDE3E7;color:#E96A7C;border-radius:999px;padding:3px 10px;font-family:\'Nunito\',sans-serif;font-size:11px;font-weight:800">' + savedItems.length + ' ♥</div>' +
       '</div>' +
       '<div style="font-size:12.5px;color:#B99B7C;margin:0 4px 14px">하트 누른 이모티콘과 최근 복사가 모여요</div>' +
+      '<div class="ad-strip"></div>' +
       (noSaved
         ? '<div style="text-align:center;padding:34px 20px">' +
             '<div style="width:110px;height:110px;margin:0 auto 14px;border-radius:50%;border:2px dashed #F2D8B5;background:#FFFAF0;overflow:hidden">' +
@@ -378,6 +395,7 @@
             '</div>';
           }).join('') + '</div>'
         : '');
+    placeAdStrip();
   }
 
   // ── 시트 (상세 / 설정) ──
